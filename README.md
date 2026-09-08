@@ -119,9 +119,6 @@ Open `http://localhost:8501`.
 - Facility mappings are repaired from the governed route master; duplicate shipment IDs are removed.
 - Large generated datasets are not committed. Reviewers reproduce them from the fixed-seed generator.
 
-## Interview-ready explanation
-
-“I designed FreightPlus as an inbound transportation control tower. I started by defining OTIF and cost variance with business rules, then generated six relational source tables with realistic seasonality, carrier reliability, capacity pressure, and documented quality defects. My pipeline found 520 duplicate, incomplete, inconsistent, or unmapped records, conformed the shipment grain, and produced carrier and lane scorecards. I also built a chronological delay-risk model using only dispatch-time features, so a planner can focus on a smaller queue before the promise is missed. I would productionize it by replacing the synthetic sources with TMS, WMS, carrier EDI, weather, and inventory feeds.”
 
 ## Responsible use
 
