@@ -5,7 +5,7 @@ An end-to-end retail transportation analytics case study that turns shipment, ca
 ![Python](https://img.shields.io/badge/Python-3.11-3776AB?logo=python&logoColor=white)
 ![SQL](https://img.shields.io/badge/SQL-PostgreSQL-4169E1?logo=postgresql&logoColor=white)
 ![Streamlit](https://img.shields.io/badge/Dashboard-Streamlit-FF4B4B?logo=streamlit&logoColor=white)
-![CI](https://img.shields.io/badge/CI-GitHub_Actions-2088FF?logo=githubactions&logoColor=white)
+![FreightPlus CI](https://github.com/ShrutiVan17/FreightPlus/actions/workflows/ci.yml/badge.svg)
 ![Data](https://img.shields.io/badge/Data-100%25_Synthetic-6D4BC3)
 
 ![FreightPlus executive dashboard preview](assets/freightplus_dashboard_preview.svg)
