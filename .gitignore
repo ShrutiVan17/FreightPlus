@@ -1,0 +1,10 @@
+__pycache__/
+.venv/
+.streamlit/secrets.toml
+.DS_Store
+data/raw/*.csv
+data/processed/*.csv
+outputs/shipment_risk_scores.csv
+executive_summary.html
+.pytest_cache/
+

@@ -1,0 +1,7 @@
+{
+  "rows": 55110,
+  "duplicate_shipment_ids": 110,
+  "missing_actual_delivery_ts": 160,
+  "invalid_facility_ids": 110,
+  "nonstandard_exception_codes": 140
+}

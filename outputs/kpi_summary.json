@@ -1,0 +1,12 @@
+{
+  "shipments_analyzed": 54840,
+  "otif_rate": 0.812,
+  "on_time_rate": 0.8342,
+  "in_full_rate": 0.9719,
+  "exception_rate": 0.1681,
+  "avg_delay_hours_late_shipments": 15.6,
+  "total_freight_cost_usd": 163346832.86,
+  "cost_variance_usd": 4105653.91,
+  "cost_per_ordered_unit_usd": 2.6343,
+  "data_quality_issues_found": 520
+}

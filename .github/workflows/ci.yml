@@ -1,0 +1,28 @@
+name: FreightPlus CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install dependencies
+        run: pip install -r requirements.txt pytest
+      - name: Generate deterministic data
+        run: python src/generate_data.py
+      - name: Run analytical pipeline
+        run: python src/analyze.py
+      - name: Validate outputs
+        run: pytest -q
+      - name: Compile application
+        run: python -m compileall -q app.py src
+
