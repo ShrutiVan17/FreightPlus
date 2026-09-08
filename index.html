@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="FreightPlus interactive inbound logistics control tower.">
+  <title>FreightPlus | Live Logistics Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="shell">
+    <aside class="rail">
+      <a class="brand" href="#top" aria-label="FreightPlus home"><span class="mark">F+</span><strong>Freight<span>Plus</span></strong></a>
+      <nav aria-label="Dashboard sections">
+        <a class="nav active" href="#top" title="Overview"><span>⌁</span><b>Overview</b></a>
+        <a class="nav" href="#network" title="Network"><span>◇</span><b>Network</b></a>
+        <a class="nav" href="#risk" title="Risk"><span>△</span><b>Risk</b></a>
+      </nav>
+      <div class="health"><i></i><span>Data healthy</span><small>55K loads</small></div>
+    </aside>
+
+    <main id="top">
+      <header>
+        <div><p class="eyebrow">CONTROL TOWER · LIVE VIEW</p><h1>Inbound pulse</h1></div>
+        <div class="filters">
+          <label><span>Month</span><select id="month"></select></label>
+          <label><span>Region</span><select id="region"></select></label>
+          <label><span>Mode</span><select id="mode"></select></label>
+          <button id="reset" type="button" aria-label="Reset filters">↺</button>
+        </div>
+      </header>
+
+      <section class="kpis" aria-label="Key performance indicators">
+        <article class="kpi plum"><span>Shipments</span><strong id="kShip">—</strong><small>analyzed loads</small></article>
+        <article class="kpi mint"><span>OTIF</span><strong id="kOtif">—</strong><small id="otifDelta">service level</small></article>
+        <article class="kpi blue"><span>On time</span><strong id="kTime">—</strong><small>promise kept</small></article>
+        <article class="kpi amber"><span>Exceptions</span><strong id="kException">—</strong><small>needs attention</small></article>
+        <article class="kpi dark"><span>Freight spend</span><strong id="kCost">—</strong><small>selected view</small></article>
+        <article class="kpi rose"><span>Cost variance</span><strong id="kVariance">—</strong><small>above contract</small></article>
+      </section>
+
+      <section class="grid overview">
+        <article class="panel trend-panel">
+          <div class="panel-head"><div><span>OTIF TREND</span><h2>Service momentum</h2></div><div class="legend"><i></i> OTIF</div></div>
+          <div id="trendChart" class="chart" role="img" aria-label="Monthly OTIF trend"></div>
+        </article>
+        <article class="panel risk-panel" id="risk">
+          <div class="panel-head"><div><span>RISK QUEUE</span><h2>Alert mix</h2></div><b class="live"><i></i>LIVE</b></div>
+          <div class="donut-wrap"><div id="riskDonut" class="donut"><div><strong>33.6%</strong><small>late loads<br>captured</small></div></div></div>
+          <div id="riskLegend" class="risk-legend"></div>
+        </article>
+      </section>
+
+      <section class="grid network" id="network">
+        <article class="panel">
+          <div class="panel-head"><div><span>CARRIER SCORE</span><h2>Top performers</h2></div><button class="ghost" data-sort="carrier">OTIF ↓</button></div>
+          <div id="carrierChart" class="bar-chart"></div>
+        </article>
+        <article class="panel">
+          <div class="panel-head"><div><span>ROOT CAUSES</span><h2>Exception load</h2></div><strong class="big-stat">9.2K</strong></div>
+          <div id="exceptionChart" class="bar-chart coral"></div>
+        </article>
+      </section>
+
+      <section class="grid bottom">
+        <article class="panel bubble-panel">
+          <div class="panel-head"><div><span>FACILITY MAP</span><h2>Service × cost exposure</h2></div><div class="axis-key">size = volume</div></div>
+          <div id="facilityChart" class="chart" role="img" aria-label="Facility performance scatterplot"></div>
+        </article>
+        <article class="panel lane-panel">
+          <div class="panel-head"><div><span>PRIORITY LANES</span><h2>Planner actions</h2></div><span class="pill">Top 5</span></div>
+          <div id="laneList" class="lane-list"></div>
+        </article>
+      </section>
+
+      <footer><span>FreightPlus</span><b>100% synthetic portfolio data</b><a href="https://github.com/ShrutiVan17/FreightPlus">GitHub ↗</a></footer>
+    </main>
+  </div>
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
