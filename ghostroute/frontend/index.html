@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>GhostRoute AI — Freight Recovery Command Center</title>
+<style>
+:root{--bg:#070b14;--panel:#0e1525;--line:#1c2a42;--text:#eef4ff;--muted:#8ea1bd;--cyan:#61dafb;--green:#45e6a7;--amber:#ffbf69;--red:#ff6174;--blue:#5b8cff}
+*{box-sizing:border-box} body{margin:0;background:radial-gradient(circle at 20% 0,#14213d 0,#070b14 42%);color:var(--text);font:14px Inter,ui-sans-serif,system-ui}
+.shell{max-width:1440px;margin:auto;padding:26px}.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px}.brand h1{margin:0;font-size:27px;letter-spacing:.8px}.brand span{color:var(--cyan)}.brand p{margin:5px 0;color:var(--muted)}
+button{border:0;border-radius:10px;padding:12px 17px;font-weight:800;cursor:pointer}.inject{background:linear-gradient(135deg,var(--red),#ff954d);color:#fff;box-shadow:0 10px 34px #ff61742f}.approve{background:var(--green);color:#04130d}.reject{background:#202d43;color:#dbe5f6}
+.kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:14px}.card,.panel{background:#0e1525dd;border:1px solid var(--line);border-radius:14px;box-shadow:0 15px 45px #0005}.card{padding:16px}.label{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:1px}.num{font-size:27px;font-weight:900;margin-top:7px}.grid{display:grid;grid-template-columns:1.5fr 1fr;gap:14px}.panel{padding:18px}.panel h2{font-size:15px;margin:0 0 12px}.map{position:relative;height:390px;border-radius:12px;background:linear-gradient(180deg,#0a1221,#080d17);overflow:hidden;border:1px solid #18263a}.map:before{content:"";position:absolute;inset:0;background-image:linear-gradient(#ffffff08 1px,transparent 1px),linear-gradient(90deg,#ffffff08 1px,transparent 1px);background-size:32px 32px}.node{position:absolute;transform:translate(-50%,-50%);z-index:3}.dot{width:14px;height:14px;background:var(--green);border-radius:50%;box-shadow:0 0 18px currentColor}.node.bad .dot{background:var(--red);animation:pulse 1s infinite}.node .name{white-space:nowrap;margin-top:6px;color:#dbe5f5;font-size:11px}.route{position:absolute;height:3px;background:#2f4568;transform-origin:left center;z-index:1}.route.active{background:var(--cyan);box-shadow:0 0 16px #61dafb88}.route.bad{background:var(--red)}
+@keyframes pulse{50%{transform:scale(1.7);opacity:.55}}
+.incident{display:none}.incident.show{display:block}.severity{display:inline-block;padding:5px 8px;border-radius:999px;background:#ff617425;color:#ff8d9b;font-weight:800;font-size:11px}.risk{font-size:48px;font-weight:950;color:var(--red);margin:12px 0 0}.muted{color:var(--muted)}.driver{margin:9px 0}.bar{height:7px;background:#1a2538;border-radius:10px;overflow:hidden;margin-top:5px}.fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--red))}
+.reco{margin-top:14px;padding:15px;border:1px solid #286a59;background:#10251f;border-radius:12px}.reco h3{margin:4px 0 8px;color:var(--green)}.actions{display:flex;gap:8px;margin-top:13px}.table{width:100%;border-collapse:collapse;margin-top:10px}.table td,.table th{padding:10px 7px;border-bottom:1px solid #1b2940;text-align:right}.table th:first-child,.table td:first-child{text-align:left}.best{color:var(--green);font-weight:800}.feed{font-family:ui-monospace,monospace;color:#a9bad0;line-height:1.8;height:130px;overflow:auto}.flash{color:var(--cyan)}
+@media(max-width:900px){.kpis{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:1fr}.shell{padding:14px}}
+</style>
+</head>
+<body>
+<div class="shell">
+ <div class="top">
+   <div class="brand"><h1>GHOST<span>ROUTE</span> AI</h1><p>Autonomous Freight Disruption Recovery Command Center</p></div>
+   <button class="inject" onclick="inject()">⚡ INJECT DISRUPTION</button>
+ </div>
+
+ <section class="kpis">
+  <div class="card"><div class="label">Active Shipments</div><div class="num">1,284</div></div>
+  <div class="card"><div class="label">At Risk</div><div class="num" id="riskCount">18</div></div>
+  <div class="card"><div class="label">Critical</div><div class="num" id="critical">4</div></div>
+  <div class="card"><div class="label">Exposure</div><div class="num" id="exposure">$52K</div></div>
+  <div class="card"><div class="label">Exposure Avoided</div><div class="num" id="avoided">$31K</div></div>
+ </section>
+
+ <div class="grid">
+  <div>
+   <div class="panel">
+    <h2>LIVE NETWORK DIGITAL TWIN</h2>
+    <div class="map" id="map">
+      <div class="node" id="hou" style="left:22%;top:68%"><div class="dot"></div><div class="name">Houston DC</div></div>
+      <div class="node" style="left:48%;top:30%"><div class="dot"></div><div class="name">Dallas Hub</div></div>
+      <div class="node" style="left:35%;top:80%"><div class="dot"></div><div class="name">San Antonio</div></div>
+      <div class="node" style="left:77%;top:25%"><div class="dot"></div><div class="name">Memphis</div></div>
+      <div class="node" style="left:90%;top:58%"><div class="dot"></div><div class="name">Atlanta Customer</div></div>
+      <div class="route bad" style="left:22%;top:68%;width:68%;transform:rotate(-9deg)"></div>
+      <div class="route active" id="recoveryRoute" style="left:22%;top:68%;width:36%;transform:rotate(-48deg);opacity:.15"></div>
+      <div class="route active" style="left:48%;top:30%;width:43%;transform:rotate(25deg);opacity:.15"></div>
+    </div>
+   </div>
+   <div class="panel" style="margin-top:14px">
+     <h2>RECOVERY ALTERNATIVES</h2>
+     <table class="table"><thead><tr><th>Option</th><th>ETA</th><th>Extra Cost</th><th>SLA Risk</th><th>Score</th></tr></thead>
+      <tbody id="alternatives">
+       <tr><td>Current Route</td><td>18.4h</td><td>$0</td><td>84%</td><td>31</td></tr>
+       <tr><td class="best">Dallas Hub B</td><td>13.1h</td><td>$42</td><td>21%</td><td class="best">87</td></tr>
+       <tr><td>San Antonio Relay</td><td>11.9h</td><td>$108</td><td>14%</td><td>82</td></tr>
+      </tbody>
+     </table>
+   </div>
+  </div>
+
+  <div>
+   <div class="panel">
+    <h2>INCIDENT INTELLIGENCE</h2>
+    <div id="empty" class="muted">Network stable. Inject a disruption to run the recovery engine.</div>
+    <div class="incident" id="incident">
+      <span class="severity">CRITICAL</span>
+      <div class="risk">84%</div><div class="muted">SLA breach probability • Shipment GR-8472</div>
+      <p><b>Primary driver:</b> Warehouse dwell-time spike</p>
+      <div class="driver">Warehouse dwell time <b style="float:right">+31%</b><div class="bar"><div class="fill" style="width:91%"></div></div></div>
+      <div class="driver">Historical lane delay <b style="float:right">+22%</b><div class="bar"><div class="fill" style="width:70%"></div></div></div>
+      <div class="driver">Carrier reliability <b style="float:right">+14%</b><div class="bar"><div class="fill" style="width:50%"></div></div></div>
+
+      <div class="reco">
+       <div class="label">Operations Decision</div>
+       <h3>Reroute through Dallas Hub B</h3>
+       <div id="reason">Cuts modeled delay while preserving the strongest combined SLA, cost and time score.</div>
+       <div class="actions"><button class="approve" onclick="approve()">APPROVE RECOVERY</button><button class="reject">REJECT</button></div>
+      </div>
+    </div>
+   </div>
+   <div class="panel" style="margin-top:14px"><h2>DECISION ENGINE TRACE</h2><div class="feed" id="feed">09:31:00  Network heartbeat normal<br/>09:31:04  1,284 active shipments evaluated<br/>09:31:06  No critical network-wide anomalies</div></div>
+  </div>
+ </div>
+</div>
+<script>
+function line(msg){const f=document.getElementById('feed'); const t=new Date().toLocaleTimeString(); f.innerHTML += '<br><span class="flash">'+t+'</span>  '+msg; f.scrollTop=f.scrollHeight}
+function inject(){
+ document.getElementById('empty').style.display='none';
+ document.getElementById('incident').classList.add('show');
+ document.getElementById('hou').classList.add('bad');
+ document.getElementById('recoveryRoute').style.opacity='1';
+ document.getElementById('riskCount').textContent='47';
+ document.getElementById('critical').textContent='12';
+ document.getElementById('exposure').textContent='$183K';
+ line('CRITICAL EVENT: Houston warehouse congestion');
+ setTimeout(()=>line('Risk Engine → GR-8472 breach probability 84%'),250);
+ setTimeout(()=>line('Digital Twin → evaluating alternative network paths'),550);
+ setTimeout(()=>line('Monte Carlo → 500 ETA outcomes simulated'),850);
+ setTimeout(()=>line('Recovery Orchestrator → Dallas Hub B ranked #1'),1200);
+}
+function approve(){
+ document.getElementById('avoided').textContent='$71K';
+ line('HUMAN APPROVAL → recovery AUD-GR-2026-0909-001 committed');
+ alert('Recovery approved. Audit decision AUD-GR-2026-0909-001 recorded.');
+}
+</script>
+</body></html>
